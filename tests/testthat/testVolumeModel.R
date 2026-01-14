@@ -2,7 +2,7 @@
 # Test for volume model
 ##########################
 
-
+require(CFT)
 
 volumeSAB <- getUnderbarkMerchantableVolumeDm3("SAB", 16, 13)
 
