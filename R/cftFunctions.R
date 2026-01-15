@@ -4,11 +4,13 @@
 # Date: April 2019
 ########################################################
 
+jarFilenames <- c("repicea", "cfsforesttools")
+
 .welcomeMessage <- function() {
   packageStartupMessage("Welcome to CFT!")
   packageStartupMessage("The CFT package implements some biometric models applied to Canadian forests!")
   packageStartupMessage("Please, make sure that Java (version 8 or later) is installed on your computer.")
-  packageStartupMessage("For more information, visit https://sourceforge.net/p/mrnfforesttools/wiki/CFT/ .")
+  packageStartupMessage("For more information, visit https://github.com/CWFC-CCFB/CFT .")
 }
 
 
@@ -34,6 +36,26 @@ shutdownJava <- function() {
     J4R::shutdownClient()
   }
 }
+
+.connectToCFT <- function(memSize = NULL) {
+  if (J4R::isConnectedToJava()) {
+    for (jarName in jarFilenames) {
+      if (!J4R::checkIfClasspathContains(jarName)) {
+        stop(paste("It seems J4R is running but the class path does not contain this library: ", jarName, ". Shut down J4R using the shutdownClient function first and then re-run your code."))
+      }
+    }
+  } else {
+    rootPath <- system.file(package = "CFT")
+    J4R::connectToJava(extensionPath = paste(rootPath, "*", sep="/"))
+#    loggerName <- J4R::getJavaField("repicea.stats.estimators.MaximumLikelihoodEstimator", "LOGGER_NAME")
+#    logger <- J4R::callJavaMethod("repicea.util.REpiceaLogManager", "getLogger", loggerName)
+#    level <- J4R::getJavaField("java.util.logging.Level", "WARNING")
+#    logger$setLevel(level)
+  }
+}
+
+
+
 
 .addToArray <- function(refArray, array) {
   if (length(refArray) != length(array)) {
@@ -68,25 +90,6 @@ shutdownJava <- function() {
 }
 
 
-.loadREpicea <- function() {
-  if (!J4R::checkIfClasspathContains("repicea.jar")) {
-    J4R::addToClassPath("repicea.jar", packageName = "CFT")
-  }
-  if (.getSimpleJavaVersion() > 8) {
-    if (!J4R::checkIfClasspathContains("istack-commons-runtime.jar")) {
-      J4R::addToClassPath("istack-commons-runtime.jar", packageName = "CFT")
-    }
-    if (!J4R::checkIfClasspathContains("jakarta.activation-api.jar")) {
-      J4R::addToClassPath("jakarta.activation-api.jar", packageName = "CFT")
-    }
-    if (!J4R::checkIfClasspathContains("jakarta.xml.bind-api.jar")) {
-      J4R::addToClassPath("jakarta.xml.bind-api.jar", packageName = "CFT")
-    }
-    if (!J4R::checkIfClasspathContains("jaxb-runtime.jar")) {
-      J4R::addToClassPath("jaxb-runtime.jar", packageName = "CFT")
-    }
-  }
-}
 
 .getSimpleJavaVersion <- function() {
   version <- suppressMessages(J4R::getJavaVersion()$version)
@@ -99,21 +102,6 @@ shutdownJava <- function() {
     return(secondInt)
   } else {
     return(firstInt)
-  }
-}
-
-.connectToCFT <- function() {
-  if (!J4R::isConnectedToJava()) {
-    J4R::connectToJava()
-  }
-  .loadREpicea()
-  .loadMrnfForesttools()
-}
-
-
-.loadMrnfForesttools <- function() {
-  if (!J4R::checkIfClasspathContains("mrnf-foresttools.jar")) {
-    J4R::addToClassPath("mrnf-foresttools.jar", packageName = "CFT")
   }
 }
 

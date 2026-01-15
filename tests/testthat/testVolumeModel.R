@@ -2,7 +2,7 @@
 # Test for volume model
 ##########################
 
-
+require(CFT)
 
 volumeSAB <- getUnderbarkMerchantableVolumeDm3("SAB", 16, 13)
 
@@ -57,10 +57,11 @@ volPredNew <- getUnderbarkMerchantableVolumeDm3(Dummy$ESSENCE, Dummy$DHP, Dummy$
 
 #save(volPred, file = "./tests/testthat/refVolPred.RData")
 
+#load("./tests/testthat/refVolPred.RData")
 load("refVolPred.RData")
 
 test_that("Testing that Gabriel's bug (REpicea Bug #63) is fixed", {
-  expect_equal(any(abs(volPred - volPredNew) > 0), F)
+  expect_true(all(abs(volPred - volPredNew) < 1E-8))
 })
 
 shutdownJava()
