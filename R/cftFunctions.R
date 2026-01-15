@@ -4,13 +4,13 @@
 # Date: April 2019
 ########################################################
 
-jarFilenames <- c("repicea-1.17.2.jar", "repicea-mathstats-1.8.1.jar", "repicea-simulation-1.3.17.jar", "cfsforesttools-1.11.0.jar")
+jarFilenames <- c("repicea", "cfsforesttools")
 
 .welcomeMessage <- function() {
   packageStartupMessage("Welcome to CFT!")
   packageStartupMessage("The CFT package implements some biometric models applied to Canadian forests!")
   packageStartupMessage("Please, make sure that Java (version 8 or later) is installed on your computer.")
-  packageStartupMessage("For more information, visit https://sourceforge.net/p/mrnfforesttools/wiki/CFT/ .")
+  packageStartupMessage("For more information, visit https://github.com/CWFC-CCFB/CFT .")
 }
 
 

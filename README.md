@@ -28,6 +28,8 @@ License for more details.
 
 Please see the license at http://www.gnu.org/copyleft/lesser.html.
 
+A wiki is available at https://sourceforge.net/p/mrnfforesttools/wiki/CFT/.
+
 Tickets can be created at https://github.com/CWFC-CCFB/CFT/issues.
 
 This package depends on the CFSForestTools Java library licensed under LGPL-3.0 (https://github.com/CWFC-CCFB/CFSForestTools).
