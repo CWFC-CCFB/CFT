@@ -22,6 +22,10 @@ test_that("Testing available species codes", {
 })
 
 
+test_that("Testing available Latin names", {
+  expect_equal(length(getMerchantableVolumeSpeciesList(latinName = T)), 26)
+})
+
 out <- tryCatch(
     {
       getUnderbarkMerchantableVolumeDm3("XXX", 16, 13)
@@ -63,5 +67,14 @@ load("refVolPred.RData")
 test_that("Testing that Gabriel's bug (REpicea Bug #63) is fixed", {
   expect_true(all(abs(volPred - volPredNew) < 1E-8))
 })
+
+
+volumeSAB <- getMerchantableVolumeDm3("SAB", 16, 13, overbark = T)
+
+test_that("Testing volume SAB", {
+  expect_equal(volumeSAB, 118.2206, tolerance = 1E-4)
+})
+
+
 
 shutdownJava()
