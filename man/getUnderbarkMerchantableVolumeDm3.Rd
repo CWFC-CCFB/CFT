@@ -2,12 +2,12 @@
 % Please edit documentation in R/volumeFunctions.R
 \name{getUnderbarkMerchantableVolumeDm3}
 \alias{getUnderbarkMerchantableVolumeDm3}
-\title{Calculate the volume of a list of trees}
+\title{Calculate the underbark volume of a list of trees}
 \usage{
 getUnderbarkMerchantableVolumeDm3(speciesCode, dbhCm, heightM)
 }
 \arguments{
-\item{speciesCode}{a three-slot species code (e.g. "SAB" or "EPB")}
+\item{speciesCode}{a three-character species code (e.g. "SAB" or "EPB")}
 
 \item{dbhCm}{diameter at breast height (cm)}
 
@@ -17,5 +17,5 @@ getUnderbarkMerchantableVolumeDm3(speciesCode, dbhCm, heightM)
 the underbark merchantable volume (dm3)
 }
 \description{
-Calculate the volume of a list of trees
+Calculate the underbark volume of a list of trees
 }
