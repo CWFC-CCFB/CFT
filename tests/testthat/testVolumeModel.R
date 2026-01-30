@@ -18,7 +18,7 @@ test_that("Testing volume SAB", {
 })
 
 test_that("Testing available species codes", {
-          expect_equal(length(getUnderbarkMerchantableVolumeSpeciesList()), 26)
+  expect_equal(suppressWarnings(length(getUnderbarkMerchantableVolumeSpeciesList())), 26)
 })
 
 

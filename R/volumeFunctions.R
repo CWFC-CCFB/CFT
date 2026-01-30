@@ -24,6 +24,19 @@ speciesCodes <- c("BOG", "BOJ", "BOP", "CET", "CHR", "EPB", "EPN", "EPR",
 #' @export
 getMerchantableVolumeDm3 <- function(speciesCode, dbhCm, heightM, overbark = F) {
   .connectToCFT()
+  if (!class(dbhCm) %in% c("numeric", "integer")) {
+    stop("The dbhCm argument should be a numeric or an integer!")
+  }
+  if (!class(heightM) %in% c("numeric", "integer")) {
+    stop("The heightM argument should be a numeric or an integer!")
+  }
+  if (!class(overbark) %in% c("logical")) {
+    stop("The overbark argument should be a logical!")
+  }
+  if (!class(speciesCode) %in% c("character")) {
+    stop("The speciesCode argument should be characters!")
+  }
+
   # areRecognized <- speciesCode %in% speciesCodes
   # if (any(!areRecognized)) {
   #   indices <- which(!areRecognized)
@@ -36,7 +49,7 @@ getMerchantableVolumeDm3 <- function(speciesCode, dbhCm, heightM, overbark = F) 
   # }
   # uselessStand <- J4R::createJavaObject("quebecmrnfutility.predictor.volumemodels.merchantablevolume.VolumableStandImpl")
   predictor <- J4R::createJavaObject("quebecmrnfutility.predictor.volumemodels.merchantablevolume.MerchantableVolumePredictor")
-  volume <- predictor$predictDeterministicTreeCommercialVolumeDm3(speciesCode, dbhCm, heightM, overbark)
+  volume <- predictor$predictDeterministicTreeCommercialVolumeDm3(speciesCode, as.numeric(dbhCm), as.numeric(heightM), overbark)
   return(volume)
 }
 
