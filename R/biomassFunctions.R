@@ -17,22 +17,31 @@
 #'
 #' @export
 getAboveGroundBiomassMg <- function(speciesCode, dbhCm, heightM=NULL) {
+  if (!class(speciesCode) %in% c("character", "factor")) {
+    stop("The speciesCode argument should be characters or factors!")
+  }
+  if (!class(dbhCm) %in% c("integer","numeric")) {
+    stop("The dbhCm argument should be an integer or a numeric!")
+  }
+  if (!is.null(heightM) && !class(heightM) %in% c("integer","numeric")) {
+    stop("If not null, the heightM argument should be an integer or a numeric")
+  }
   .connectToCFT()
   areRecognized <- speciesCode %in% getAbovegroundBiomassSpeciesList()
   if (any(!areRecognized)) {
     indices <- which(!areRecognized)
     notRecognized <- unique(speciesCode[indices])
     if (length(notRecognized) == 1) {
-      stop(paste("This species code:", notRecognized, "is not recognized! Please use the getUnderbarkMerchantableVolumeSpeciesList function to get the list of possible codes."))
+      stop(paste("This species code:", notRecognized, "is not recognized! Please use the getAbovegroundBiomassSpeciesList function to get the list of possible codes."))
     } else {
       stop(paste("These species codes:", paste(notRecognized, collapse = ","), "are not recognized! Please use the getUnderbarkMerchantableVolumeSpeciesList function to get the list of possible codes."))
     }
   }
   predictor <- J4R::createJavaObject(paste0(.biomassPackageName, "Lambert2005BiomassPredictor"))
   if (is.null(heightM)) {
-    biomassPred <- predictor$predictTotalBiomassMg(speciesCode, dbhCm)
+    biomassPred <- predictor$predictTotalBiomassMg(as.character(speciesCode), as.numeric(dbhCm))
   } else {
-    biomassPred <- predictor$predictTotalBiomassMg(speciesCode, dbhCm, heightM)
+    biomassPred <- predictor$predictTotalBiomassMg(as.character(speciesCode), as.numeric(dbhCm), as.numeric(heightM))
   }
   return(biomassPred)
 }

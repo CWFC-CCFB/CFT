@@ -6,6 +6,16 @@ require(CFT)
 
 volumeSAB <- getUnderbarkMerchantableVolumeDm3("SAB", 16, 13)
 
+volumeSAB <- getUnderbarkMerchantableVolumeDm3("SAB", as.integer(16), as.integer(13))
+
+test_that("Expect error message", {
+  expect_error(getMerchantableVolumeDm3(1, 16, 13), "speciesCode argument")
+  expect_error(getMerchantableVolumeDm3("SAB", "error", 13), "dbhCm argument")
+  expect_error(getMerchantableVolumeDm3("SAB", 16, "error"), "heightM argument")
+  expect_error(getUnderbarkMerchantableVolumeDm3("XXX", 16, 13), "does not support species XXX")
+  expect_error(getUnderbarkMerchantableVolumeDm3(c("SAB", "XXX2", "XX2", "XX2", "EPR"), 16, 13), "does not support species XXX2")
+})
+
 test_that("Testing volume SAB", {
   expect_equal(volumeSAB, 105.5542, tolerance = 1E-4)
 })
@@ -24,33 +34,6 @@ test_that("Testing available species codes", {
 
 test_that("Testing available Latin names", {
   expect_equal(length(getMerchantableVolumeSpeciesList(latinName = T)), 26)
-})
-
-out <- tryCatch(
-    {
-      getUnderbarkMerchantableVolumeDm3("XXX", 16, 13)
-    },
-    error=function(cond) {
-      return("failed")
-    }
-)
-
-test_that("Testing that unrecognized code fails", {
-  expect_equal(out, "failed")
-})
-
-
-out <- tryCatch(
-  {
-    getUnderbarkMerchantableVolumeDm3(c("SAB", "XXX", "XX2", "XX2", "EPR"), 16, 13)
-  },
-  error=function(cond) {
-    return("failed")
-  }
-)
-
-test_that("Testing that unrecognized code fails", {
-  expect_equal(out, "failed")
 })
 
 
