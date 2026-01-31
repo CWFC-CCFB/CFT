@@ -27,6 +27,9 @@ test_that("Expect error message", {
   expect_error(getAboveGroundBiomassMg("XXX", 16, 13), "is not recognized!")
 })
 
+getAboveGroundBiomassMg("AbiesBalsamea", as.integer(12))
+getAboveGroundBiomassMg("AbiesBalsamea", as.integer(12), as.integer(10))
+getAbovegroundBiomassSpeciesList()
 
 load("refDataBiomass3parms.RData")
 # load("./tests/testthat/refDataBiomass3parms.RData")
